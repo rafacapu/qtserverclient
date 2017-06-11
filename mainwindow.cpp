@@ -5,7 +5,7 @@
 #include <thread>
 #include <iostream>
 #include <string>
-//aqui nós conectamos os botões aos slots,usando o qt criamos o socket.
+//aqui nós conectamos os botões aos slots
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
   ui(new Ui::MainWindow)
@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent) :
           this,
           SLOT(Stop()));
 }
-//aqui declaramos o timerEvent,para que o programa continue a receber até receber o cancelar
+//aqui declaramos o timerEvent
 void MainWindow::timerEvent(QTimerEvent *e){
     QDateTime datetime;
     QString str;
@@ -62,7 +62,7 @@ void MainWindow::timerEvent(QTimerEvent *e){
     }
 }
 
-
+//aqui são os códigos para configurar como os dados vão aparecer na tela
 int MainWindow::getimming(){
       return(ui->horizontalSlider_3timming->value());
     }
@@ -95,12 +95,13 @@ void MainWindow::tcpDisconnect(){
   if(socket->waitForDisconnected(3000)){
     qDebug() << "Disconnected";
   }
-}//esta função é importante,ele cancela o envio de dados,sem ela o programa erra na segunda tentativa
+}//função,gerir envio de dados,parar
 void MainWindow::Stop()
 {
     killTimer(TimerID);
 }
 
+//função para iniciar o envio de novo.
 
 void MainWindow::putData()
 {
@@ -110,7 +111,7 @@ void MainWindow::putData()
 }
 
 
-// apaga o socket e a imagem,fazendo o programa reiniciar
+// deleta o socket e a ui,reiniciando
 MainWindow::~MainWindow()
 {
   delete socket;

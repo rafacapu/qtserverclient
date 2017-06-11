@@ -5,36 +5,36 @@
 #include <thread>
 #include <iostream>
 #include <string>
-
+//aqui nós conectamos os botões aos slots,usando o qt criamos o socket.
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
   ui(new Ui::MainWindow)
 {
   ui->setupUi(this);
   socket = new QTcpSocket(this);
-
+//botão para conectar atráves do IP
   connect(ui->pushButtonConnect,
           SIGNAL(clicked(bool)),
           this,
           SLOT(tcpConnect()));
-
+// botão desconectar
   connect(ui->pushButton_2Disconnect,
           SIGNAL(clicked(bool)),
           this,
           SLOT(tcpDisconnect()));
 
-
+//botão iniciar
   connect(ui->pushButton_3Start,
           SIGNAL(clicked(bool)),
           this,
           SLOT(putData()));
-
+// botão parar
   connect(ui->pushButton_4Stop,
           SIGNAL(clicked(bool)),
           this,
           SLOT(Stop()));
 }
-
+//aqui declaramos o timerEvent,para que o programa continue a receber até receber o cancelar
 void MainWindow::timerEvent(QTimerEvent *e){
     QDateTime datetime;
     QString str;
@@ -95,7 +95,7 @@ void MainWindow::tcpDisconnect(){
   if(socket->waitForDisconnected(3000)){
     qDebug() << "Disconnected";
   }
-}
+}//esta função é importante,ele cancela o envio de dados,sem ela o programa erra na segunda tentativa
 void MainWindow::Stop()
 {
     killTimer(TimerID);
@@ -110,7 +110,7 @@ void MainWindow::putData()
 }
 
 
-
+// apaga o socket e a imagem,fazendo o programa reiniciar
 MainWindow::~MainWindow()
 {
   delete socket;
